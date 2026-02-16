@@ -3,6 +3,7 @@ import type { EmbeddingCapability } from './embedding';
 import type { ImageCapability } from './image';
 import type { SpeechCapability } from './speech';
 import type { VideoCapability } from './video';
+import type { LanguageModel } from '../protocol/language';
 
 /**
  * Provider types
@@ -12,10 +13,16 @@ import type { VideoCapability } from './video';
  * Provider configuration
  */
 export interface ProviderConfig {
-  /** Provider ID */
+  /** Provider instance ID */
   id: string;
-  /** Provider name */
+  /** Provider instance name */
   name?: string;
+  /** Provider plugin ID to use */
+  use: string;
+  /** Provider custom options */
+  options?: Record<string, unknown>;
+  /** Custom model configuration (override or add models) */
+  models?: LanguageModel[];
 }
 
 /**
