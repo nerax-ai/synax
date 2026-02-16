@@ -1,0 +1,62 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "synax",
+      "devDependencies": {
+        "prettier": "^3.2.5",
+        "typescript": "^5.7.3",
+      },
+    },
+    "packages/cli": {
+      "name": "synax",
+      "version": "0.0.1",
+      "bin": {
+        "synax": "./dist/cli.js",
+      },
+      "dependencies": {
+        "@synax/router": "workspace:*",
+        "@synax/sdk": "workspace:*",
+        "@synax/server": "workspace:*",
+      },
+      "devDependencies": {
+        "typescript": "^5.7.3",
+      },
+    },
+    "packages/router": {
+      "name": "@synax/router",
+      "version": "0.0.1",
+      "devDependencies": {
+        "typescript": "^5.7.3",
+      },
+    },
+    "packages/sdk": {
+      "name": "@synax/sdk",
+      "version": "0.0.1",
+      "devDependencies": {
+        "typescript": "^5.7.3",
+      },
+    },
+    "packages/server": {
+      "name": "@synax/server",
+      "version": "0.0.1",
+      "devDependencies": {
+        "typescript": "^5.7.3",
+      },
+    },
+  },
+  "packages": {
+    "@synax/router": ["@synax/router@workspace:packages/router"],
+
+    "@synax/sdk": ["@synax/sdk@workspace:packages/sdk"],
+
+    "@synax/server": ["@synax/server@workspace:packages/server"],
+
+    "prettier": ["prettier@3.8.1", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg=="],
+
+    "synax": ["synax@workspace:packages/cli"],
+
+    "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+  }
+}

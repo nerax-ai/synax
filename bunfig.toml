@@ -1,0 +1,10 @@
+# Bun configuration file
+# Documentation: https://bun.sh/docs/runtime/bunfig
+
+[install]
+# Use local cache to speed up installation
+cache = true
+
+[install.lockfile]
+# Save lockfile
+save = true

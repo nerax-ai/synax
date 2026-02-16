@@ -1,0 +1,29 @@
+{
+  "name": "synax",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "synax": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@synax/sdk": "workspace:*",
+    "@synax/router": "workspace:*",
+    "@synax/server": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
