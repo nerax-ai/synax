@@ -3,11 +3,7 @@ import type { EmbeddingCapability } from './embedding';
 import type { ImageCapability } from './image';
 import type { SpeechCapability } from './speech';
 import type { VideoCapability } from './video';
-import type { LanguageModel } from '../protocol/language';
-
-/**
- * Provider types
- */
+import type { AnyModel } from '../protocol';
 
 /**
  * Provider configuration
@@ -22,7 +18,7 @@ export interface ProviderConfig {
   /** Provider custom options */
   options?: Record<string, unknown>;
   /** Custom model configuration (override or add models) */
-  models?: LanguageModel[];
+  models?: AnyModel[];
 }
 
 /**
@@ -33,6 +29,8 @@ export interface Provider {
   readonly id: string;
   /** Provider name */
   readonly name: string;
+  /** Available models for this provider */
+  readonly models?: AnyModel[];
   /** Language capability */
   language?: LanguageCapability;
   /** Embedding capability */
@@ -48,6 +46,4 @@ export interface Provider {
 /**
  * Factory function type for creating providers
  */
-export type CreateProvider<TConfig extends ProviderConfig = ProviderConfig> = (
-  config: TConfig,
-) => Provider;
+export type CreateProvider<TConfig extends ProviderConfig = ProviderConfig> = (config: TConfig) => Provider;

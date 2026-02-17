@@ -16,6 +16,9 @@
     "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
+  "dependencies": {
+    "@synax/sdk": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.7.3"
   }

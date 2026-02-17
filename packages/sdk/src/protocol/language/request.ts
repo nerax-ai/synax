@@ -31,11 +31,7 @@ export interface LanguageReasoningConfig {
  * Tool choice configuration.
  * Controls which (if any) tool is called by the model.
  */
-export type LanguageToolChoice =
-  | 'auto'
-  | 'none'
-  | 'required'
-  | { type: 'function'; function: { name: string } };
+export type LanguageToolChoice = 'auto' | 'none' | 'required' | { type: 'function'; function: { name: string } };
 
 /**
  * Response format configuration for structured output.

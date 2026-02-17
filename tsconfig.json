@@ -18,9 +18,7 @@
       "@synax/router": ["./packages/router/src"],
       "@synax/router/*": ["./packages/router/src/*"],
       "@synax/server": ["./packages/server/src"],
-      "@synax/server/*": ["./packages/server/src/*"],
-      "synax": ["./packages/cli/src"],
-      "synax/*": ["./packages/cli/src/*"]
+      "@synax/server/*": ["./packages/server/src/*"]
     }
   },
   "references": [

@@ -63,6 +63,8 @@ export interface LanguageModelLimits {
  * Language model definition
  */
 export interface LanguageModel {
+  /** Model type (defaults to 'language', can be omitted) */
+  type?: 'language';
   /** Model ID */
   id: string;
   /** Model name */

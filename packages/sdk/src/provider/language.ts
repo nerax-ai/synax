@@ -1,9 +1,4 @@
-import type {
-  LanguageRequest,
-  LanguageResponse,
-  LanguageStreamChunk,
-  LanguageModel,
-} from '../protocol/language';
+import type { LanguageRequest, LanguageResponse, LanguageStreamChunk, LanguageModel } from '../protocol/language';
 
 /**
  * Language model capability interface

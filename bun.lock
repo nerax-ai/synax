@@ -27,6 +27,9 @@
     "packages/router": {
       "name": "@synax/router",
       "version": "0.0.1",
+      "dependencies": {
+        "@synax/sdk": "workspace:*",
+      },
       "devDependencies": {
         "typescript": "^5.7.3",
       },
