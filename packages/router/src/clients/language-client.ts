@@ -1,4 +1,4 @@
-import type { LanguageRequest, LanguageResponse, LanguageStreamChunk, Provider } from '@synax/sdk';
+import type { LanguageRequest, LanguageResponse, LanguageStreamPart, Provider } from '@synax/sdk';
 import { DispatcherRunner } from '../dispatcher-runner';
 
 /**
@@ -22,7 +22,7 @@ export class LanguageClient {
    * Routes through DispatcherRunner with failover support
    * The entire stream is treated as one unit - if it fails, next candidate is tried
    */
-  async *stream(request: LanguageRequest): AsyncGenerator<LanguageStreamChunk, void, unknown> {
+  async *stream(request: LanguageRequest): AsyncGenerator<LanguageStreamPart, void, unknown> {
     yield* this.dispatcherRunner.dispatchStream(request.model, 'language', (provider, model) => {
       return this.executeStream(provider, model, request);
     });
@@ -52,7 +52,7 @@ export class LanguageClient {
     provider: Provider,
     model: string,
     request: LanguageRequest,
-  ): AsyncGenerator<LanguageStreamChunk, void, unknown> {
+  ): AsyncGenerator<LanguageStreamPart, void, unknown> {
     const capability = provider.language;
 
     if (!capability) {

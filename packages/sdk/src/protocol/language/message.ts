@@ -1,5 +1,4 @@
 import {
-  LanguageMessagePart,
   LanguageTextContent,
   LanguageFileContent,
   LanguageReasoningContent,
@@ -8,7 +7,6 @@ import {
   LanguageToolApprovalRequestContent,
   LanguageToolApprovalResponseContent,
 } from './content';
-import { LanguageTokenUsage } from './usage';
 import type { ProviderMetadata } from './types';
 
 /**
@@ -17,14 +15,6 @@ import type { ProviderMetadata } from './types';
 export interface LanguageMessageBase {
   /** Raw provider-specific metadata. */
   providerMetadata?: ProviderMetadata;
-  /** Standardized telemetry and billing metadata. */
-  metadata?: {
-    startTime?: number;
-    endTime?: number;
-    tokens?: LanguageTokenUsage;
-    cost?: number;
-    [key: string]: unknown;
-  };
 }
 
 /**

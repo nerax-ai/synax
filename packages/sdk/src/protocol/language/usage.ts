@@ -1,55 +1,25 @@
 /**
  * Detailed token usage statistics for Language Model requests.
+ * Aligned with AI SDK V3 structure.
  */
 export interface LanguageTokenUsage {
-  /**
-   * Number of tokens in the prompt (input).
-   */
-  promptTokens: number;
-
-  /**
-   * Number of tokens in the generated completion (output).
-   */
-  completionTokens: number;
-
-  /**
-   * Sum of prompt and completion tokens.
-   */
-  totalTokens: number;
-
-  /**
-   * Breakdown of prompt tokens.
-   */
-  promptDetails?: {
-    /**
-     * Number of prompt tokens that were reused from cache.
-     */
-    cachedTokens?: number;
-    /**
-     * Number of tokens related to audio input.
-     */
-    audioTokens?: number;
+  /** Input token breakdown */
+  inputTokens: {
+    /** Total input tokens */
+    total: number | undefined;
+    /** Non-cached input tokens */
+    noCache: number | undefined;
+    /** Cached input tokens read */
+    cacheRead: number | undefined;
+    /** Cached input tokens written */
+    cacheWrite: number | undefined;
   };
 
-  /**
-   * Breakdown of completion tokens.
-   */
-  completionDetails?: {
-    /**
-     * Number of tokens used for internal reasoning/thinking.
-     */
-    reasoningTokens?: number;
-    /**
-     * Number of tokens related to audio output.
-     */
-    audioTokens?: number;
-    /**
-     * Number of tokens for accepted speculative predictions.
-     */
-    acceptedPredictionTokens?: number;
-    /**
-     * Number of tokens for rejected speculative predictions.
-     */
-    rejectedPredictionTokens?: number;
+  /** Output token breakdown */
+  outputTokens: {
+    /** Total output tokens */
+    total: number | undefined;
+    /** Reasoning/thinking tokens */
+    reasoning: number | undefined;
   };
 }

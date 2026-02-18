@@ -79,14 +79,10 @@ export interface LanguageToolCallContent extends LanguageContentPartBase {
   toolCallId: string;
   toolName: string;
   /**
-   * The arguments for the tool call as a JSON object.
+   * The arguments for the tool call. Stringified JSON (as returned by providers)
+   * or a parsed object (for convenience in agent code).
    */
-  args: JSONValue;
-  /** Internal compatibility for OpenAI-style function field */
-  function?: {
-    name: string;
-    arguments: string;
-  };
+  input: string | unknown;
   /**
    * Whether the tool call will be executed by the provider (e.g. MCP, Server-side).
    * If false or undefined, it's executed by the client.

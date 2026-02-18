@@ -77,7 +77,7 @@ export interface LanguageRequest {
   /**
    * The maximum number of tokens to generate in the completion.
    */
-  maxTokens?: number;
+  maxOutputTokens?: number;
 
   /**
    * Controls randomness: higher values (e.g., 0.8) make output more random,
@@ -140,11 +140,6 @@ export interface LanguageRequest {
    * Explicit configuration for reasoning/thinking models.
    */
   reasoning?: LanguageReasoningConfig;
-
-  /**
-   * Whether to stream back partial progress.
-   */
-  stream?: boolean;
 
   /**
    * A unique identifier representing your end-user.

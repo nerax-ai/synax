@@ -4,48 +4,31 @@ import { LanguageTokenUsage } from './usage';
 import type { ProviderMetadata } from './types';
 
 /**
- * Incremental change (delta) within a streaming response.
- * Follows the same Part-centric structure as the message.
+ * Language Stream Part.
+ * Event-based stream parts aligned with AI SDK V3.
+ * Each part is a discriminated union member with a 'type' field.
  */
-export interface LanguageStreamChunkDelta {
-  /**
-   * The role of the author (usually only present in the first chunk).
-   */
-  role?: string;
+export type LanguageStreamPart =
+  // Text blocks
+  | { type: 'text-start'; id: string; providerMetadata?: ProviderMetadata }
+  | { type: 'text-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
+  | { type: 'text-end'; id: string; providerMetadata?: ProviderMetadata }
 
-  /**
-   * Incremental content. Can be a string delta or an array of partial parts.
-   */
-  content?: string | LanguageMessagePart[];
-}
+  // Reasoning blocks
+  | { type: 'reasoning-start'; id: string; providerMetadata?: ProviderMetadata }
+  | { type: 'reasoning-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
+  | { type: 'reasoning-end'; id: string; providerMetadata?: ProviderMetadata }
 
-/**
- * Language Stream Chunk.
- * Represents a single packet of data in a streaming LLM response.
- */
-export interface LanguageStreamChunk {
-  /** Unique ID for the stream session. */
-  id: string;
+  // Tool call blocks
+  | { type: 'tool-input-start'; id: string; toolName: string; providerExecuted?: boolean; dynamic?: boolean; providerMetadata?: ProviderMetadata }
+  | { type: 'tool-input-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
+  | { type: 'tool-input-end'; id: string; providerMetadata?: ProviderMetadata }
 
-  /** Unix timestamp. */
-  created: number;
+  // Inline content parts (tool-call, tool-result, file, source, approval)
+  | ({ type: 'content-part' } & LanguageMessagePart)
 
-  /** The model ID. */
-  model: string;
-
-  /** List of choice deltas. */
-  choices: Array<{
-    /** Index of the choice. */
-    index: number;
-    /** The delta of information in this chunk. */
-    delta: LanguageStreamChunkDelta;
-    /** Reason for completion (only present in the final chunk). */
-    finishReason: FinishReason;
-  }>;
-
-  /** Accumulated or incremental usage statistics. */
-  usage?: LanguageTokenUsage;
-
-  /** Extra provider-specific metadata. */
-  providerMetadata?: ProviderMetadata;
-}
+  // Stream lifecycle
+  | { type: 'stream-start'; warnings?: string[] }
+  | { type: 'response-metadata'; id: string; model: string; created: number }
+  | { type: 'finish'; finishReason: FinishReason; usage: LanguageTokenUsage; providerMetadata?: ProviderMetadata }
+  | { type: 'error'; error: unknown };
