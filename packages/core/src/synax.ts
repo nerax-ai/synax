@@ -25,6 +25,7 @@ export interface ExtendedDispatcherConfig {
 }
 
 export interface SynaxConfig {
+  appName: string;
   providers: Provider[];
   groups: GroupConfig[];
   metrics?: Metrics;
@@ -46,7 +47,7 @@ export class Synax {
   private _video?: VideoClient;
 
   constructor(config: SynaxConfig) {
-    this.logger = getLogger('synax');
+    this.logger = getLogger(config.appName);
     this.metrics = config.metrics;
 
     for (const provider of config.providers) {
