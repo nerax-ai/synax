@@ -1,5 +1,5 @@
 // Types
-export type { ProviderConfig, Provider, CreateProvider } from './types';
+export type { ProviderConfig, Provider } from './types';
 
 // Capabilities
 export type { LanguageCapability } from './language';

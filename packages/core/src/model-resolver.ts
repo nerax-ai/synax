@@ -1,9 +1,5 @@
 import type { GroupConfig } from '@synax-ai/sdk';
 
-/**
- * Resolved group result
- * Only supports group-based routing (no direct provider access)
- */
 export interface ResolvedGroup {
   groupId: string;
   group: GroupConfig;
@@ -11,37 +7,23 @@ export interface ResolvedGroup {
 }
 
 /**
- * Resolve model ID to group configuration
- * Throws if the model ID doesn't reference a valid group
- *
- * Model ID Patterns:
- * - "group-id" → Group decides model (uses default)
- * - "group-id/model-id" → Specific model within group
- *
- * Direct provider access (provider-id/model-id) is NOT supported.
+ * Resolve model ID to group configuration.
+ * Patterns:
+ * - "group-id" → group decides model (uses default)
+ * - "group-id/model-id" → specific model within group
  */
 export function resolveModel(groups: Map<string, GroupConfig>, modelId: string): ResolvedGroup {
-  const parts = modelId.split('/');
+  const slashIdx = modelId.indexOf('/');
 
-  // Single part: "group-id"
-  if (parts.length === 1) {
-    const groupId = parts[0];
-    const group = groups.get(groupId);
-
-    if (!group) {
-      throw new Error(`Group '${groupId}' not found. Model ID must reference a group.`);
-    }
-
-    return { groupId, group };
+  if (slashIdx === -1) {
+    const group = groups.get(modelId);
+    if (!group) throw new Error(`Group '${modelId}' not found`);
+    return { groupId: modelId, group };
   }
 
-  // Two parts: "group-id/model-id"
-  const [groupId, requiredModel] = parts;
+  const groupId = modelId.slice(0, slashIdx);
+  const requiredModel = modelId.slice(slashIdx + 1);
   const group = groups.get(groupId);
-
-  if (!group) {
-    throw new Error(`Group '${groupId}' not found. Model ID must reference a group.`);
-  }
-
+  if (!group) throw new Error(`Group '${groupId}' not found`);
   return { groupId, group, requiredModel };
 }

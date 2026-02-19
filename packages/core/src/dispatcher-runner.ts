@@ -42,9 +42,7 @@ export class DispatcherRunner {
     const { logger, metrics, dispatchers, providers } = this.deps;
 
     const candidates = this.buildCandidates(group, providers, logger);
-    if (candidates.length === 0) {
-      throw new Error(`No valid providers in group: ${groupId}`);
-    }
+    if (candidates.length === 0) throw new Error(`No valid providers in group: ${groupId}`);
 
     const context: DispatcherContext = {
       requestId: crypto.randomUUID(),
@@ -52,26 +50,19 @@ export class DispatcherRunner {
       requiredModel,
       state: {},
       logger,
-      metrics: metrics ?? this.createDefaultMetrics(),
+      metrics,
     };
-
-    let dispatcherRef = group.use;
-    if (!dispatcherRef && dispatchers.size === 1) {
-      dispatcherRef = dispatchers.keys().next().value;
-    }
 
     let filteredCandidates = candidates;
     if (requiredModel) {
       filteredCandidates = candidates.filter((m) => !m.modelId || m.modelId === requiredModel);
-      if (filteredCandidates.length === 0) {
+      if (filteredCandidates.length === 0)
         throw new Error(`No providers in group ${groupId} support model: ${requiredModel}`);
-      }
     }
 
+    const dispatcherRef = group.use ?? dispatchers.keys().next().value;
     const dispatcher = dispatchers.get(dispatcherRef!);
-    if (!dispatcher) {
-      throw new Error(`Dispatcher not found: ${dispatcherRef} for group ${groupId}`);
-    }
+    if (!dispatcher) throw new Error(`Dispatcher not found: ${dispatcherRef} for group ${groupId}`);
 
     logger.info(`[${capability}] Dispatching group ${groupId} using: ${dispatcherRef}`);
     return { context, filteredCandidates, dispatcher };
@@ -88,14 +79,5 @@ export class DispatcherRunner {
       candidates.push({ providerId: m.provider, provider, modelId: m.model, options: m.options });
     }
     return candidates;
-  }
-
-  private createDefaultMetrics(): Metrics {
-    return {
-      getLatency: () => 0,
-      getErrorRate: () => 0,
-      isHealthy: () => true,
-      recordResult: () => {},
-    };
   }
 }

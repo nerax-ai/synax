@@ -1,8 +1,1 @@
-export type {
-  DispatcherContext,
-  GroupMember,
-  ExecuteCallback,
-  StreamExecuteCallback,
-  Dispatcher,
-  DispatcherFactory,
-} from './types';
+export type { DispatcherContext, GroupMember, ExecuteCallback, StreamExecuteCallback, Dispatcher } from './types';

@@ -1,13 +1,11 @@
-// Types
-export type { Synax, SynaxConfig } from './synax';
-
-// Clients
-export { LanguageClient, EmbeddingClient, ImageClient, SpeechClient, VideoClient } from './clients';
-
-// Dispatcher
+export { Synax } from './synax';
+export type { SynaxConfig, ExtendedDispatcherConfig } from './synax';
 export { DispatcherRunner } from './dispatcher-runner';
 export { DefaultDispatcher } from './default-dispatcher';
-
-// Router utilities
 export { resolveModel } from './model-resolver';
 export type { ResolvedGroup } from './model-resolver';
+export { LanguageClient } from './clients/language-client';
+export { EmbeddingClient } from './clients/embedding-client';
+export { ImageClient } from './clients/image-client';
+export { SpeechClient } from './clients/speech-client';
+export { VideoClient } from './clients/video-client';

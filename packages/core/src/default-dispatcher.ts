@@ -8,34 +8,24 @@ import {
   type StreamExecuteCallback,
 } from '@synax-ai/sdk';
 
-/**
- * Default Dispatcher - Try candidates in order until one succeeds
- */
+/** Default dispatcher: tries candidates in order until one succeeds */
 export class DefaultDispatcher implements Dispatcher {
   readonly name = 'default';
 
   async dispatch<T>(context: DispatcherContext, candidates: GroupMember[], execute: ExecuteCallback<T>): Promise<T> {
     const errors: CandidateError[] = [];
-
     for (let i = 0; i < candidates.length; i++) {
       const member = candidates[i];
       const model = context.requiredModel ?? member.modelId;
       if (!model) continue;
-
       try {
         context.logger.debug(`[Default] Trying ${member.providerId}`);
         return await execute(member.provider, model);
       } catch (err) {
         context.logger.warn(`[Default] ${member.providerId} failed: ${(err as Error).message}`);
-        errors.push({
-          providerId: member.providerId,
-          modelId: member.modelId,
-          error: err as Error,
-          attemptIndex: i,
-        });
+        errors.push({ providerId: member.providerId, modelId: member.modelId, error: err as Error, attemptIndex: i });
       }
     }
-
     throw new AllCandidatesFailedError(errors);
   }
 
@@ -45,27 +35,19 @@ export class DefaultDispatcher implements Dispatcher {
     execute: StreamExecuteCallback<T>,
   ): AsyncGenerator<T, void, unknown> {
     const errors: CandidateError[] = [];
-
     for (let i = 0; i < candidates.length; i++) {
       const member = candidates[i];
       const model = context.requiredModel ?? member.modelId;
       if (!model) continue;
-
       try {
         context.logger.debug(`[Default] Trying stream from ${member.providerId}`);
         yield* execute(member.provider, model);
         return;
       } catch (err) {
         context.logger.warn(`[Default] Stream from ${member.providerId} failed: ${(err as Error).message}`);
-        errors.push({
-          providerId: member.providerId,
-          modelId: member.modelId,
-          error: err as Error,
-          attemptIndex: i,
-        });
+        errors.push({ providerId: member.providerId, modelId: member.modelId, error: err as Error, attemptIndex: i });
       }
     }
-
     throw new AllCandidatesFailedError(errors);
   }
 }

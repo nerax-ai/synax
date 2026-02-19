@@ -1,33 +1,19 @@
-/**
- * Group Types
- */
-
-/**
- * Group member configuration
- */
 export interface GroupMemberConfig {
-  /** Target Provider ID (required) */
+  /** Provider instance ID to use */
   provider: string;
-  /** Default model, used when client only requests GroupID */
+  /** Default model when client requests only the group ID */
   default?: string;
-  /** Limit to specific model, if set, this member only handles requests for this model */
+  /** Limit to specific model; this member only handles requests for this model */
   model?: string;
   /** Scheduler options (e.g., priority, weight) */
   options?: Record<string, unknown>;
 }
 
-/**
- * Group configuration
- */
 export interface GroupConfig {
-  /** Unique Group identifier */
   id: string;
-  /** Group name */
   name?: string;
-  /** Scheduler plugin to use (e.g., "priority"), defaults to sequential scheduling if not configured */
+  /** Dispatcher plugin to use, defaults to 'default' (sequential failover) */
   use?: string;
-  /** Group custom options */
   options?: Record<string, unknown>;
-  /** Member list */
   members: GroupMemberConfig[];
 }

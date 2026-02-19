@@ -1,6 +1,16 @@
 import { getLogger } from '@nerax-ai/logger';
 import { PluginRegistry } from '@nerax-ai/plugin';
-import type { AnyModel, Dispatcher, GroupConfig, Logger, Metrics, Provider, ProviderConfig } from '@synax-ai/sdk';
+import type {
+  AnyModel,
+  ApiPluginFactory,
+  Dispatcher,
+  Endpoint,
+  GroupConfig,
+  Logger,
+  Metrics,
+  Provider,
+  ProviderConfig,
+} from '@synax-ai/sdk';
 import { EmbeddingClient } from './clients/embedding-client';
 import { ImageClient } from './clients/image-client';
 import { LanguageClient } from './clients/language-client';
@@ -10,10 +20,12 @@ import { DefaultDispatcher } from './default-dispatcher';
 import { DispatcherRunner } from './dispatcher-runner';
 import { listModels } from './model-list';
 
-type SynaxExtensionType = 'provider' | 'dispatcher';
+type SynaxExtensionType = 'provider' | 'dispatcher' | 'endpoint' | 'api';
 type SynaxFactoryMap = {
   provider: (ctx: any) => Provider | Promise<Provider>;
   dispatcher: (ctx: any) => Dispatcher | Promise<Dispatcher>;
+  endpoint: (options: Record<string, unknown>) => Endpoint;
+  api: ApiPluginFactory;
 };
 type SynaxRegistry = PluginRegistry<SynaxExtensionType, SynaxFactoryMap>;
 

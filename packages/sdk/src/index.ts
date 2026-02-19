@@ -4,6 +4,7 @@ export * from './provider';
 export * from './group';
 export * from './dispatcher';
 export * from './error';
+export * from './endpoint';
 export type {
   PluginStorage,
   PluginLogger,

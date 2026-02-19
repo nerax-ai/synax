@@ -1,20 +1,15 @@
-import { LanguageMessagePart } from './content';
-import { FinishReason } from './finish-reason';
-import { LanguageTokenUsage } from './usage';
+import type { LanguageMessagePart } from './content';
+import type { FinishReason } from './finish-reason';
+import type { LanguageTokenUsage } from './usage';
 import type { ProviderMetadata } from './types';
 
-/**
- * Language Stream Part.
- * Event-based stream parts aligned with AI SDK V3.
- * Each part is a discriminated union member with a 'type' field.
- */
 export type LanguageStreamPart =
   // Text blocks
   | { type: 'text-start'; id: string; providerMetadata?: ProviderMetadata }
   | { type: 'text-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
   | { type: 'text-end'; id: string; providerMetadata?: ProviderMetadata }
 
-  // Reasoning blocks
+  // Reasoning/thinking blocks
   | { type: 'reasoning-start'; id: string; providerMetadata?: ProviderMetadata }
   | { type: 'reasoning-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
   | { type: 'reasoning-end'; id: string; providerMetadata?: ProviderMetadata }
@@ -31,7 +26,7 @@ export type LanguageStreamPart =
   | { type: 'tool-input-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
   | { type: 'tool-input-end'; id: string; providerMetadata?: ProviderMetadata }
 
-  // Inline content parts (tool-call, tool-result, file, source, approval)
+  // Inline content parts (tool-result, file, source, approval)
   | ({ type: 'content-part' } & LanguageMessagePart)
 
   // Stream lifecycle
