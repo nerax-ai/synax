@@ -1,5 +1,5 @@
 {
-  "name": "@synax/sdk",
+  "name": "@synax-ai/sdk",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -16,7 +16,8 @@
     "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
-  "devDependencies": {
-    "typescript": "^5.7.3"
+  "dependencies": {
+    "@nerax-ai/plugin": "link:@nerax-ai/plugin",
+    "@nerax-ai/logger": "link:@nerax-ai/logger"
   }
 }

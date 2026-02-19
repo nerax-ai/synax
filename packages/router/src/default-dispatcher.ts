@@ -6,7 +6,7 @@ import {
   type GroupMember,
   type ExecuteCallback,
   type StreamExecuteCallback,
-} from '@synax/sdk';
+} from '@synax-ai/sdk';
 
 /**
  * Default Dispatcher - Try candidates in order until one succeeds

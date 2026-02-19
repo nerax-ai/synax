@@ -12,20 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "paths": {
-      "@synax/sdk": ["./packages/sdk/src"],
-      "@synax/sdk/*": ["./packages/sdk/src/*"],
-      "@synax/router": ["./packages/router/src"],
-      "@synax/router/*": ["./packages/router/src/*"],
-      "@synax/server": ["./packages/server/src"],
-      "@synax/server/*": ["./packages/server/src/*"]
-    }
-  },
-  "references": [
-    { "path": "./packages/sdk" },
-    { "path": "./packages/router" },
-    { "path": "./packages/server" },
-    { "path": "./packages/cli" }
-  ],
-  "exclude": ["node_modules", "packages/*/dist", "packages/*/node_modules"]
+    "types": ["bun-types"]
+  }
 }

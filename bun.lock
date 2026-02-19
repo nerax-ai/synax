@@ -5,61 +5,66 @@
     "": {
       "name": "synax",
       "devDependencies": {
+        "bun-types": "^1.3.9",
         "prettier": "^3.2.5",
         "typescript": "^5.7.3",
       },
     },
     "packages/cli": {
-      "name": "synax",
+      "name": "synax-ai",
       "version": "0.0.1",
       "bin": {
         "synax": "./dist/cli.js",
       },
       "dependencies": {
-        "@synax/router": "workspace:*",
-        "@synax/sdk": "workspace:*",
-        "@synax/server": "workspace:*",
-      },
-      "devDependencies": {
-        "typescript": "^5.7.3",
+        "@synax-ai/router": "workspace:*",
+        "@synax-ai/sdk": "workspace:*",
+        "@synax-ai/server": "workspace:*",
       },
     },
     "packages/router": {
-      "name": "@synax/router",
+      "name": "@synax-ai/router",
       "version": "0.0.1",
       "dependencies": {
-        "@synax/sdk": "workspace:*",
-      },
-      "devDependencies": {
-        "typescript": "^5.7.3",
+        "@nerax-ai/logger": "link:@nerax-ai/logger",
+        "@nerax-ai/plugin": "link:@nerax-ai/plugin",
+        "@synax-ai/sdk": "workspace:*",
       },
     },
     "packages/sdk": {
-      "name": "@synax/sdk",
+      "name": "@synax-ai/sdk",
       "version": "0.0.1",
-      "devDependencies": {
-        "typescript": "^5.7.3",
+      "dependencies": {
+        "@nerax-ai/logger": "link:@nerax-ai/logger",
+        "@nerax-ai/plugin": "link:@nerax-ai/plugin",
       },
     },
     "packages/server": {
-      "name": "@synax/server",
+      "name": "@synax-ai/server",
       "version": "0.0.1",
-      "devDependencies": {
-        "typescript": "^5.7.3",
-      },
     },
   },
   "packages": {
-    "@synax/router": ["@synax/router@workspace:packages/router"],
+    "@nerax-ai/logger": ["@nerax-ai/logger@link:@nerax-ai/logger", {}],
 
-    "@synax/sdk": ["@synax/sdk@workspace:packages/sdk"],
+    "@nerax-ai/plugin": ["@nerax-ai/plugin@link:@nerax-ai/plugin", {}],
 
-    "@synax/server": ["@synax/server@workspace:packages/server"],
+    "@synax-ai/router": ["@synax-ai/router@workspace:packages/router"],
+
+    "@synax-ai/sdk": ["@synax-ai/sdk@workspace:packages/sdk"],
+
+    "@synax-ai/server": ["@synax-ai/server@workspace:packages/server"],
+
+    "@types/node": ["@types/node@22.19.11", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-BH7YwL6rA93ReqeQS1c4bsPpcfOmJasG+Fkr6Y59q83f9M1WcBRHR2vM+P9eOisYRcN3ujQoiZY8uk5W+1WL8w=="],
+
+    "bun-types": ["bun-types@1.3.9", "", { "dependencies": { "@types/node": "*" } }, "sha512-+UBWWOakIP4Tswh0Bt0QD0alpTY8cb5hvgiYeWCMet9YukHbzuruIEeXC2D7nMJPB12kbh8C7XJykSexEqGKJg=="],
 
     "prettier": ["prettier@3.8.1", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg=="],
 
-    "synax": ["synax@workspace:packages/cli"],
+    "synax-ai": ["synax-ai@workspace:packages/cli"],
 
     "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+
+    "undici-types": ["undici-types@6.21.0", "", {}, "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="],
   }
 }

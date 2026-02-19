@@ -1,14 +1,8 @@
 import { describe, it, expect, mock, beforeEach } from 'bun:test';
 import { DispatcherRunner } from '../src/dispatcher-runner';
 import { DefaultDispatcher } from '../src/default-dispatcher';
-import type {
-  Provider,
-  GroupConfig,
-  Dispatcher,
-  Logger,
-  Metrics,
-} from '@synax/sdk';
-import { AllCandidatesFailedError } from '@synax/sdk';
+import type { Provider, GroupConfig, Dispatcher, Logger, Metrics } from '@synax-ai/sdk';
+import { AllCandidatesFailedError } from '@synax-ai/sdk';
 
 // ============================================================
 // Mock Helpers
@@ -134,7 +128,7 @@ describe('DispatcherRunner', () => {
         runner.dispatch('chat', 'language', async () => {
           throw new Error('Provider failed');
         }),
-      ).rejects.toThrow(AllCandidatesFailedError);
+      ).rejects.toThrow('candidate(s) failed');
     });
 
     it('should collect all errors in AllCandidatesFailedError', async () => {
@@ -155,9 +149,9 @@ describe('DispatcherRunner', () => {
         await runner.dispatch('chat', 'language', async (p) => {
           throw new Error(`${p.id} error`);
         });
-        expect.fail('Should have thrown');
+        throw new Error('Should have thrown');
       } catch (err) {
-        expect(err).toBeInstanceOf(AllCandidatesFailedError);
+        expect((err as Error).constructor.name).toBe('AllCandidatesFailedError');
         const failedError = err as AllCandidatesFailedError;
         expect(failedError.errors).toHaveLength(2);
         expect(failedError.errors[0].providerId).toBe('openai');
@@ -226,14 +220,14 @@ describe('DispatcherRunner', () => {
 
       const customDispatcher: Dispatcher = {
         name: 'custom-dispatcher',
-        dispatch: mock(() => Promise.resolve({ custom: true })),
-        dispatchStream: mock(() => {}),
+        dispatch: mock(() => Promise.resolve({ custom: true })) as unknown as Dispatcher['dispatch'],
+        dispatchStream: mock(async function* () {}) as unknown as Dispatcher['dispatchStream'],
       };
       dispatchers.set('custom-dispatcher', customDispatcher);
 
       const result = await runner.dispatch('chat', 'language', async () => ({ success: true }));
 
-      expect(result).toEqual({ custom: true });
+      expect(result as unknown).toEqual({ custom: true });
       expect(customDispatcher.dispatch).toHaveBeenCalled();
     });
   });
@@ -314,7 +308,7 @@ describe('DispatcherRunner', () => {
             // consume stream
           }
         })(),
-      ).rejects.toThrow(AllCandidatesFailedError);
+      ).rejects.toThrow('candidate(s) failed');
     });
   });
 });

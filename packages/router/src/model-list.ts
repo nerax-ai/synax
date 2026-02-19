@@ -1,4 +1,4 @@
-import type { Provider, AnyModel, GroupConfig, GroupMemberConfig } from '@synax/sdk';
+import type { Provider, AnyModel, GroupConfig, GroupMemberConfig } from '@synax-ai/sdk';
 
 /**
  * List all available models (group-level and specific models)

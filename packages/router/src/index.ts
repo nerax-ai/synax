@@ -8,6 +8,10 @@ export { LanguageClient, EmbeddingClient, ImageClient, SpeechClient, VideoClient
 export { DispatcherRunner } from './dispatcher-runner';
 export { DefaultDispatcher } from './default-dispatcher';
 
+// Plugin
+export { PluginRegistry } from './plugin-registry';
+export type { PluginRegistryConfig } from './plugin-registry';
+
 // Router utilities
 export { resolveModel } from './model-resolver';
 export type { ResolvedGroup } from './model-resolver';

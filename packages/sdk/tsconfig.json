@@ -3,12 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
-    "declaration": true,
-    "declarationMap": false,
-    "sourceMap": false,
     "outDir": "./dist",
-    "rootDir": "./src",
-    "moduleResolution": "node"
+    "rootDir": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

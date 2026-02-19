@@ -1,1 +1,1 @@
-export const name = '@synax/server';
+export const name = '@synax-ai/server';

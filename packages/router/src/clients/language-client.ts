@@ -1,4 +1,4 @@
-import type { LanguageRequest, LanguageResponse, LanguageStreamPart, Provider } from '@synax/sdk';
+import type { LanguageRequest, LanguageResponse, LanguageStreamPart, Provider } from '@synax-ai/sdk';
 import { DispatcherRunner } from '../dispatcher-runner';
 
 /**

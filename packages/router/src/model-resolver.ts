@@ -1,4 +1,4 @@
-import type { GroupConfig } from '@synax/sdk';
+import type { GroupConfig } from '@synax-ai/sdk';
 
 /**
  * Resolved group result

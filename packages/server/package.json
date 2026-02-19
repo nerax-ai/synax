@@ -1,5 +1,5 @@
 {
-  "name": "@synax/server",
+  "name": "@synax-ai/server",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,12 +11,9 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc",
     "dev": "tsc --watch",
     "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.3"
   }
 }

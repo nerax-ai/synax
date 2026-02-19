@@ -20,7 +20,14 @@ export type LanguageStreamPart =
   | { type: 'reasoning-end'; id: string; providerMetadata?: ProviderMetadata }
 
   // Tool call blocks
-  | { type: 'tool-input-start'; id: string; toolName: string; providerExecuted?: boolean; dynamic?: boolean; providerMetadata?: ProviderMetadata }
+  | {
+      type: 'tool-input-start';
+      id: string;
+      toolName: string;
+      providerExecuted?: boolean;
+      dynamic?: boolean;
+      providerMetadata?: ProviderMetadata;
+    }
   | { type: 'tool-input-delta'; id: string; delta: string; providerMetadata?: ProviderMetadata }
   | { type: 'tool-input-end'; id: string; providerMetadata?: ProviderMetadata }
 

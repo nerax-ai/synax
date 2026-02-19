@@ -1,5 +1,5 @@
 {
-  "name": "@synax/router",
+  "name": "@synax-ai/router",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,15 +11,14 @@
     }
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc",
     "dev": "tsc --watch",
     "lint": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@synax/sdk": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.3"
+    "@nerax-ai/plugin": "link:@nerax-ai/plugin",
+    "@nerax-ai/logger": "link:@nerax-ai/logger",
+    "@synax-ai/sdk": "workspace:*"
   }
 }

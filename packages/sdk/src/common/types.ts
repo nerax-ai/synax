@@ -7,19 +7,8 @@
  */
 export type CapabilityType = 'language' | 'embedding' | 'image' | 'speech' | 'video';
 
-/**
- * Logger interface
- */
-export interface Logger {
-  debug(message: string, ...args: unknown[]): void;
-  info(message: string, ...args: unknown[]): void;
-  warn(message: string, ...args: unknown[]): void;
-  error(message: string, ...args: unknown[]): void;
-}
+export type { Logger } from '@nerax-ai/logger';
 
-/**
- * Metrics interface for tracking provider health and performance
- */
 export interface Metrics {
   /** Get average latency for a provider (ms) */
   getLatency(providerId: string): number;
