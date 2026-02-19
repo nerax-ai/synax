@@ -10,6 +10,12 @@
       "import": "./dist/index.js"
     }
   },
+  "dependencies": {
+    "hono": "^4.12.0",
+    "@synax-ai/core": "workspace:*",
+    "@synax-ai/sdk": "workspace:*",
+    "@nerax-ai/plugin": "link:@nerax-ai/plugin"
+  },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc",
     "dev": "tsc --watch",

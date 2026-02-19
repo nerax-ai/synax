@@ -22,6 +22,8 @@
   "dependencies": {
     "@synax-ai/sdk": "workspace:*",
     "@synax-ai/core": "workspace:*",
-    "@synax-ai/server": "workspace:*"
+    "@synax-ai/server": "workspace:*",
+    "@nerax-ai/storage": "link:@nerax-ai/storage",
+    "@nerax-ai/plugin": "link:@nerax-ai/plugin"
   }
 }
