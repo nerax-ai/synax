@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@synax-ai/sdk": "workspace:*",
-    "@synax-ai/router": "workspace:*",
+    "@synax-ai/core": "workspace:*",
     "@synax-ai/server": "workspace:*"
   }
 }

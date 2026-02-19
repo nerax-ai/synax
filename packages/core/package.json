@@ -1,5 +1,5 @@
 {
-  "name": "@synax-ai/router",
+  "name": "@synax-ai/core",
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/index.js",
