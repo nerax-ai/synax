@@ -1,5 +1,13 @@
-import type { Provider, Dispatcher } from '@synax/sdk';
-import type { SynaxPluginModule } from '../../../src/plugin-registry';
+import type { Provider, Dispatcher } from '@synax-ai/sdk';
+import type { PluginModule } from '@nerax-ai/plugin';
+
+type SynaxPluginModule = PluginModule<
+  'provider' | 'dispatcher',
+  {
+    provider: (ctx: any) => Provider | Promise<Provider>;
+    dispatcher: (ctx: any) => Dispatcher | Promise<Dispatcher>;
+  }
+>;
 
 export default {
   manifest: { id: '@test/mock-plugin', name: 'Mock Plugin', version: '1.0.0' },

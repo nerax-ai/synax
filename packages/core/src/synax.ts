@@ -1,14 +1,25 @@
-import type { Provider, ProviderConfig, AnyModel, GroupConfig, Dispatcher, Metrics, Logger } from '@synax-ai/sdk';
 import { getLogger } from '@nerax-ai/logger';
-import { DispatcherRunner } from './dispatcher-runner';
-import { DefaultDispatcher } from './default-dispatcher';
-import { listModels } from './model-list';
-import { LanguageClient } from './clients/language-client';
+import { PluginRegistry } from '@nerax-ai/plugin';
+import type { AnyModel, Dispatcher, GroupConfig, Logger, Metrics, Provider, ProviderConfig } from '@synax-ai/sdk';
 import { EmbeddingClient } from './clients/embedding-client';
 import { ImageClient } from './clients/image-client';
+import { LanguageClient } from './clients/language-client';
 import { SpeechClient } from './clients/speech-client';
 import { VideoClient } from './clients/video-client';
-import { PluginRegistry } from './plugin-registry';
+import { DefaultDispatcher } from './default-dispatcher';
+import { DispatcherRunner } from './dispatcher-runner';
+import { listModels } from './model-list';
+
+type SynaxExtensionType = 'provider' | 'dispatcher';
+type SynaxFactoryMap = {
+  provider: (ctx: any) => Provider | Promise<Provider>;
+  dispatcher: (ctx: any) => Dispatcher | Promise<Dispatcher>;
+};
+type SynaxRegistry = PluginRegistry<SynaxExtensionType, SynaxFactoryMap>;
+
+function getRegistry(): SynaxRegistry {
+  return PluginRegistry.getInstance<SynaxExtensionType, SynaxFactoryMap>();
+}
 
 /** Dispatcher created via plugin factory */
 export interface ExtendedDispatcherConfig {
@@ -66,7 +77,8 @@ export class Synax {
 
   async addProvider(config: Provider | ProviderConfig): Promise<void> {
     if ('use' in config) {
-      const provider = await PluginRegistry.createProvider(config.use, config.id, config.options ?? {}, config.proxy);
+      const merged = config.proxy ? { proxy: config.proxy, ...config.options } : (config.options ?? {});
+      const provider = (await getRegistry().create('provider', config.use, config.id, merged)) as Provider;
       if (this.providers.has(provider.id)) {
         throw new Error(`Provider with id '${provider.id}' already exists`);
       }
@@ -101,7 +113,12 @@ export class Synax {
 
   async addDispatcher(config: Dispatcher | ExtendedDispatcherConfig): Promise<void> {
     if ('use' in config) {
-      const dispatcher = await PluginRegistry.createDispatcher(config.use, config.name, config.options ?? {});
+      const dispatcher = (await getRegistry().create(
+        'dispatcher',
+        config.use,
+        config.name,
+        config.options ?? {},
+      )) as Dispatcher;
       this.dispatchers.set(dispatcher.name, dispatcher);
       return;
     }

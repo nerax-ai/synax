@@ -1,11 +1,20 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
 import { Synax } from '../src/synax';
-import { PluginRegistry } from '../src/plugin-registry';
-import type { Provider, Dispatcher } from '@synax/sdk';
+import { PluginRegistry } from '@nerax-ai/plugin';
+import type { Provider, Dispatcher } from '@synax-ai/sdk';
 import { join } from 'path';
 
-const FIXTURES_DIR = join(__dirname, 'fixtures');
-const MOCK_PLUGIN_PATH = join(FIXTURES_DIR, 'mock-plugin');
+type SynaxExtensionType = 'provider' | 'dispatcher';
+type SynaxFactoryMap = {
+  provider: (ctx: any) => Provider | Promise<Provider>;
+  dispatcher: (ctx: any) => Dispatcher | Promise<Dispatcher>;
+};
+
+const MOCK_PLUGIN_PATH = join(__dirname, 'fixtures', 'mock-plugin');
+
+function getRegistry() {
+  return PluginRegistry.getInstance<SynaxExtensionType, SynaxFactoryMap>();
+}
 
 // Helper to create Synax with default config
 function createSynax() {
@@ -15,7 +24,7 @@ function createSynax() {
 describe('Synax with PluginRegistry', () => {
   beforeEach(async () => {
     PluginRegistry.reset();
-    await PluginRegistry.load(`file:${MOCK_PLUGIN_PATH}`);
+    await getRegistry().load(`file:${MOCK_PLUGIN_PATH}`);
   });
 
   afterEach(() => {
