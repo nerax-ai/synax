@@ -1,4 +1,4 @@
-import type { Provider, AnyModel, GroupConfig, Dispatcher, Metrics, Logger } from '@synax-ai/sdk';
+import type { Provider, ProviderConfig, AnyModel, GroupConfig, Dispatcher, Metrics, Logger } from '@synax-ai/sdk';
 import { getLogger } from '@nerax-ai/logger';
 import { DispatcherRunner } from './dispatcher-runner';
 import { DefaultDispatcher } from './default-dispatcher';
@@ -10,17 +10,10 @@ import { SpeechClient } from './clients/speech-client';
 import { VideoClient } from './clients/video-client';
 import { PluginRegistry } from './plugin-registry';
 
-/** Provider created via plugin factory */
-export interface ExtendedProviderConfig {
-  id: string;
-  factoryRef: string;
-  options?: Record<string, unknown>;
-}
-
 /** Dispatcher created via plugin factory */
 export interface ExtendedDispatcherConfig {
   name: string;
-  factoryRef: string;
+  use: string;
   options?: Record<string, unknown>;
 }
 
@@ -71,9 +64,9 @@ export class Synax {
     });
   }
 
-  async addProvider(config: Provider | ExtendedProviderConfig): Promise<void> {
-    if ('factoryRef' in config) {
-      const provider = await PluginRegistry.createProvider(config.factoryRef, config.id, config.options ?? {});
+  async addProvider(config: Provider | ProviderConfig): Promise<void> {
+    if ('use' in config) {
+      const provider = await PluginRegistry.createProvider(config.use, config.id, config.options ?? {}, config.proxy);
       if (this.providers.has(provider.id)) {
         throw new Error(`Provider with id '${provider.id}' already exists`);
       }
@@ -107,8 +100,8 @@ export class Synax {
   }
 
   async addDispatcher(config: Dispatcher | ExtendedDispatcherConfig): Promise<void> {
-    if ('factoryRef' in config) {
-      const dispatcher = await PluginRegistry.createDispatcher(config.factoryRef, config.name, config.options ?? {});
+    if ('use' in config) {
+      const dispatcher = await PluginRegistry.createDispatcher(config.use, config.name, config.options ?? {});
       this.dispatchers.set(dispatcher.name, dispatcher);
       return;
     }

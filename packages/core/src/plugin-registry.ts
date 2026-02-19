@@ -52,8 +52,10 @@ export class PluginRegistry {
     ref: string,
     instanceId: string,
     options: Record<string, unknown> = {},
+    proxy?: string,
   ): Promise<Provider> {
-    return PluginRegistry.getInstance().create('provider', ref, instanceId, options) as Promise<Provider>;
+    const merged = proxy ? { proxy, ...options } : options;
+    return PluginRegistry.getInstance().create('provider', ref, instanceId, merged) as Promise<Provider>;
   }
 
   static async createDispatcher(

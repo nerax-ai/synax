@@ -28,7 +28,7 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addProvider({
         id: 'mock-1',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: { apiKey: 'test-key' },
       });
 
@@ -43,7 +43,7 @@ describe('Synax with PluginRegistry', () => {
       await expect(
         synax.addProvider({
           id: 'unknown',
-          factoryRef: 'nonexistent-factory',
+          use: 'nonexistent-factory',
           options: {},
         }),
       ).rejects.toThrow();
@@ -54,13 +54,13 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addProvider({
         id: 'mock-1',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: { apiKey: 'key-1' },
       });
 
       await synax.addProvider({
         id: 'mock-2',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: { apiKey: 'key-2' },
       });
 
@@ -74,7 +74,7 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addProvider({
         id: 'mock-1',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: {},
       });
 
@@ -119,7 +119,7 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addDispatcher({
         name: 'mock-dispatcher-1',
-        factoryRef: 'mock-dispatcher',
+        use: 'mock-dispatcher',
       });
 
       const dispatcher = synax.getDispatcher('mock-dispatcher-1');
@@ -134,7 +134,7 @@ describe('Synax with PluginRegistry', () => {
       await expect(
         synax.addDispatcher({
           name: 'unknown',
-          factoryRef: 'nonexistent-dispatcher',
+          use: 'nonexistent-dispatcher',
         }),
       ).rejects.toThrow();
     });
@@ -144,12 +144,12 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addDispatcher({
         name: 'dispatcher-1',
-        factoryRef: 'mock-dispatcher',
+        use: 'mock-dispatcher',
       });
 
       await synax.addDispatcher({
         name: 'dispatcher-2',
-        factoryRef: 'mock-dispatcher',
+        use: 'mock-dispatcher',
       });
 
       // Note: Synax may only keep one dispatcher at a time
@@ -200,13 +200,13 @@ describe('Synax with PluginRegistry', () => {
 
       await synax1.addProvider({
         id: 'provider-1',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: { apiKey: 'key-1' },
       });
 
       await synax2.addProvider({
         id: 'provider-2',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: { apiKey: 'key-2' },
       });
 
@@ -226,13 +226,13 @@ describe('Synax with PluginRegistry', () => {
       // Both should be able to use the same factory
       await synax1.addProvider({
         id: 'p1',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: {},
       });
 
       await synax2.addProvider({
         id: 'p2',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: {},
       });
 
@@ -248,14 +248,14 @@ describe('Synax with PluginRegistry', () => {
       // Add provider from factory
       await synax.addProvider({
         id: 'mock-provider',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: { apiKey: 'test-key' },
       });
 
       // Add dispatcher from factory
       await synax.addDispatcher({
         name: 'mock-dispatcher',
-        factoryRef: 'mock-dispatcher',
+        use: 'mock-dispatcher',
       });
 
       // Add a group
@@ -276,7 +276,7 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addProvider({
         id: 'mock',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: {},
       });
 
@@ -294,7 +294,7 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addProvider({
         id: 'mock',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: {},
       });
 
@@ -320,14 +320,14 @@ describe('Synax with PluginRegistry', () => {
 
       await synax.addProvider({
         id: 'duplicate',
-        factoryRef: 'mock-provider',
+        use: 'mock-provider',
         options: {},
       });
 
       await expect(
         synax.addProvider({
           id: 'duplicate',
-          factoryRef: 'mock-provider',
+          use: 'mock-provider',
           options: {},
         }),
       ).rejects.toThrow();

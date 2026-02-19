@@ -15,6 +15,8 @@ export interface ProviderConfig {
   name?: string;
   /** Provider plugin ID to use */
   use: string;
+  /** HTTP/HTTPS proxy URL for all requests, e.g. http://127.0.0.1:7890 */
+  proxy?: string;
   /** Provider custom options */
   options?: Record<string, unknown>;
   /** Custom model configuration (override or add models) */
