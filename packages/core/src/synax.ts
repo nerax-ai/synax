@@ -1,5 +1,5 @@
 import type { Provider, AnyModel, GroupConfig, Dispatcher, Metrics, Logger } from '@synax-ai/sdk';
-import { createLogger } from '@nerax-ai/logger';
+import { getLogger } from '@nerax-ai/logger';
 import { DispatcherRunner } from './dispatcher-runner';
 import { DefaultDispatcher } from './default-dispatcher';
 import { listModels } from './model-list';
@@ -27,12 +27,9 @@ export interface ExtendedDispatcherConfig {
 export interface SynaxConfig {
   providers: Provider[];
   groups: GroupConfig[];
-  logger?: Logger;
   metrics?: Metrics;
   dispatchers?: Dispatcher[];
 }
-
-const defaultLogger: Logger = createLogger({ appName: 'synax' });
 
 export class Synax {
   private readonly providers: Map<string, Provider> = new Map();
@@ -49,7 +46,7 @@ export class Synax {
   private _video?: VideoClient;
 
   constructor(config: SynaxConfig) {
-    this.logger = config.logger ?? defaultLogger;
+    this.logger = getLogger('synax');
     this.metrics = config.metrics;
 
     for (const provider of config.providers) {
