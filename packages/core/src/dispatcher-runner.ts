@@ -76,7 +76,7 @@ export class DispatcherRunner {
         logger.warn(`Provider not found: ${m.provider}, skipping`);
         continue;
       }
-      candidates.push({ providerId: m.provider, provider, modelId: m.model, options: m.options });
+      candidates.push({ providerId: m.provider, provider, modelId: m.model ?? m.default, options: m.options });
     }
     return candidates;
   }

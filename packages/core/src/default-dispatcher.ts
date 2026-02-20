@@ -19,7 +19,7 @@ export class DefaultDispatcher implements Dispatcher {
       const model = context.requiredModel ?? member.modelId;
       if (!model) continue;
       try {
-        context.logger.debug(`[Default] Trying ${member.providerId}`);
+        context.logger.info(`[Default] Trying ${member.providerId} / ${model}`);
         return await execute(member.provider, model);
       } catch (err) {
         context.logger.warn(`[Default] ${member.providerId} failed: ${(err as Error).message}`);
@@ -40,7 +40,7 @@ export class DefaultDispatcher implements Dispatcher {
       const model = context.requiredModel ?? member.modelId;
       if (!model) continue;
       try {
-        context.logger.debug(`[Default] Trying stream from ${member.providerId}`);
+        context.logger.info(`[Default] Trying stream from ${member.providerId} / ${model}`);
         yield* execute(member.provider, model);
         return;
       } catch (err) {
