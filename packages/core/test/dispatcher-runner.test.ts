@@ -8,12 +8,16 @@ import { AllCandidatesFailedError } from '@synax-ai/sdk';
 // Mock Helpers
 // ============================================================
 
-const createMockLogger = (): Logger => ({
-  debug: mock(() => {}),
-  info: mock(() => {}),
-  warn: mock(() => {}),
-  error: mock(() => {}),
-});
+const createMockLogger = (): Logger => {
+  const logger: Logger = {
+    debug: mock(() => {}),
+    info: mock(() => {}),
+    warn: mock(() => {}),
+    error: mock(() => {}),
+    scope: mock(() => logger),
+  };
+  return logger;
+};
 
 const createMockMetrics = (): Metrics => ({
   getLatency: mock(() => 100),

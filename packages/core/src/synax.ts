@@ -42,6 +42,7 @@ export interface ExtendedDispatcherConfig {
 
 export interface SynaxConfig {
   appName?: string;
+  logger?: Logger;
   providers: Provider[];
   groups: GroupConfig[];
   metrics?: Metrics;
@@ -53,7 +54,7 @@ export class Synax {
   private readonly groups: Map<string, GroupConfig> = new Map();
   private readonly dispatchers: Map<string, Dispatcher> = new Map();
   private readonly dispatcherRunner: DispatcherRunner;
-  private readonly logger: Logger;
+  public readonly logger: Logger;
   private readonly metrics?: Metrics;
 
   private _language?: LanguageClient;
@@ -63,7 +64,7 @@ export class Synax {
   private _video?: VideoClient;
 
   constructor(config: SynaxConfig) {
-    this.logger = getLogger(config.appName ?? 'synax');
+    this.logger = config.logger ?? getLogger(config.appName ?? 'synax');
     this.metrics = config.metrics;
 
     for (const provider of config.providers) {

@@ -2,6 +2,7 @@ import { Synax } from '@synax-ai/core';
 import type { ProviderConfig, GroupConfig, ApiContext } from '@synax-ai/sdk';
 import { PluginRegistry } from '@nerax-ai/plugin';
 import type { EndpointContext } from '@synax-ai/sdk';
+import type { Logger } from '@nerax-ai/logger';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
@@ -22,17 +23,19 @@ export interface ServerConfig {
 
 export interface ServerOptions {
   config: ServerConfig;
+  logger?: Logger;
 }
 
 export async function createServer(options: ServerOptions) {
-  const { config } = options;
+  const { config, logger } = options;
+  const log: Logger = logger ?? { info: console.log, warn: console.warn, debug: () => {}, error: console.error, scope: () => log };
   const registry = PluginRegistry.getInstance<any, any>();
 
   for (const source of config.plugins ?? []) {
     await registry.load(source);
   }
 
-  const synax = new Synax({ appName: config.appName, providers: [], groups: config.groups ?? [] });
+  const synax = new Synax({ appName: config.appName, logger: log, providers: [], groups: config.groups ?? [] });
   for (const p of config.providers ?? []) {
     await synax.addProvider(p as any);
   }
@@ -45,12 +48,13 @@ export async function createServer(options: ServerOptions) {
   for (const ec of config.endpoints ?? []) {
     const factory = registry.listExtensions('endpoint').find((e: any) => e.fullId === ec.use || e.id === ec.use);
     if (!factory) {
-      console.warn(`[server] endpoint not found: ${ec.use}`);
+      log.warn(`[server] endpoint not found: ${ec.use}`);
       continue;
     }
     const endpoint = (factory.factory as any)(ec.options ?? {});
     const sub = new Hono();
     const ctx: EndpointContext = {
+      logger: synax.logger.scope(`endpoint-${ec.use}`),
       language: synax.language,
       embedding: synax.embedding,
       image: synax.image,
@@ -67,7 +71,7 @@ export async function createServer(options: ServerOptions) {
   for (const ac of config.api ?? []) {
     const factory = registry.listExtensions('api').find((e: any) => e.fullId === ac.use || e.id === ac.use);
     if (!factory) {
-      console.warn(`[server] api plugin not found: ${ac.use}`);
+      log.warn(`[server] api plugin not found: ${ac.use}`);
       continue;
     }
     const plugin = (factory.factory as any)(ac.options ?? {});

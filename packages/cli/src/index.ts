@@ -2,15 +2,20 @@
 import { createServer } from '@synax-ai/server';
 import { PluginRegistry } from '@nerax-ai/plugin';
 import { getStorage } from '@nerax-ai/storage';
+import { getLogger } from '@nerax-ai/logger';
 
-PluginRegistry.getInstance({ appName: 'synax' });
+const log = getLogger('synax', {
+  files: [{ filename: 'synax-%DATE%.log', level: 'debug' }],
+});
+
+PluginRegistry.getInstance({ appName: 'synax', logger: log.scope('PluginRegistry') });
 
 const storage = getStorage('synax');
 const config = (await storage.config.readJSON('synax.json')) ?? { providers: [], groups: [] };
 const port = parseInt(process.env.PORT || '3000', 10);
 
-const { app } = await createServer({ config });
+const { app } = await createServer({ config, logger: log });
 
 Bun.serve({ port, fetch: app.fetch, idleTimeout: 60 });
-console.log(`Synax server running on http://localhost:${port}`);
-console.log(`Config: ${storage.config.path}/synax.json`);
+log.info(`Synax server running on http://localhost:${port}`);
+log.info(`Config: ${storage.config.path}/synax.json`);

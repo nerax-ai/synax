@@ -19,10 +19,11 @@ export class DefaultDispatcher implements Dispatcher {
       const model = context.requiredModel ?? member.modelId;
       if (!model) continue;
       try {
-        context.logger.debug(`[Default] Trying ${member.providerId}`);
+        const logger = context.logger.scope('Default');
+        logger.info(`Trying ${member.providerId} / ${model}`);
         return await execute(member.provider, model);
       } catch (err) {
-        context.logger.warn(`[Default] ${member.providerId} failed: ${(err as Error).message}`);
+        context.logger.scope('Default').warn(`${member.providerId} failed: ${(err as Error).message}`);
         errors.push({ providerId: member.providerId, modelId: member.modelId, error: err as Error, attemptIndex: i });
       }
     }
@@ -40,11 +41,12 @@ export class DefaultDispatcher implements Dispatcher {
       const model = context.requiredModel ?? member.modelId;
       if (!model) continue;
       try {
-        context.logger.debug(`[Default] Trying stream from ${member.providerId}`);
+        const logger = context.logger.scope('Default');
+        logger.info(`Trying stream from ${member.providerId} / ${model}`);
         yield* execute(member.provider, model);
         return;
       } catch (err) {
-        context.logger.warn(`[Default] Stream from ${member.providerId} failed: ${(err as Error).message}`);
+        context.logger.scope('Default').warn(`Stream from ${member.providerId} failed: ${(err as Error).message}`);
         errors.push({ providerId: member.providerId, modelId: member.modelId, error: err as Error, attemptIndex: i });
       }
     }

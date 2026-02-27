@@ -11,7 +11,10 @@ export type { EndpointImageClient } from './image';
 export type { EndpointSpeechClient } from './speech';
 export type { EndpointVideoClient } from './video';
 
+import type { Logger } from '@nerax-ai/logger';
+
 export interface EndpointContext {
+  logger: Logger;
   language: EndpointLanguageClient;
   embedding: EndpointEmbeddingClient;
   image: EndpointImageClient;
@@ -20,12 +23,12 @@ export interface EndpointContext {
   models(): AnyModel[];
 }
 
+export type EndpointFactory = (options: Record<string, unknown>) => Endpoint;
+
 export interface Endpoint {
   basePath: string;
   registerRoutes(app: any, ctx: EndpointContext): void;
 }
-
-export type EndpointFactory = (options: Record<string, unknown>) => Endpoint;
 
 export interface ApiContext {
   models(): AnyModel[];
