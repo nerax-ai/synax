@@ -1,6 +1,6 @@
 {
   "name": "@synax-ai/core",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,8 +17,8 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@nerax-ai/plugin": "0.0.1",
-    "@nerax-ai/logger": "0.0.1",
-    "@synax-ai/sdk": "workspace:*"
+    "@synax-ai/sdk": "workspace:*",
+    "@nerax-ai/plugin": "0.0.3",
+    "@nerax-ai/logger": "0.0.3"
   }
 }

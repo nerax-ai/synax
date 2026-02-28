@@ -28,8 +28,14 @@ export interface ServerOptions {
 
 export async function createServer(options: ServerOptions) {
   const { config, logger } = options;
-  const log: Logger = logger ?? { info: console.log, warn: console.warn, debug: () => {}, error: console.error, scope: () => log };
-  const registry = PluginRegistry.getInstance<any, any>();
+  const log: Logger = logger ?? {
+    info: console.log,
+    warn: console.warn,
+    debug: () => {},
+    error: console.error,
+    scope: () => log,
+  };
+  const registry = PluginRegistry.getInstance({ appName: config.appName ?? 'synax' });
 
   for (const source of config.plugins ?? []) {
     await registry.load(source);

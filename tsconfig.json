@@ -12,6 +12,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["bun-types"]
+    "types": ["bun-types"],
+    "paths": {
+      "@synax-ai/sdk": ["./packages/sdk/src"],
+      "@synax-ai/core": ["./packages/core/src"],
+      "@synax-ai/server": ["./packages/server/src"],
+      "synax-ai": ["./packages/cli/src"]
+    }
   }
 }

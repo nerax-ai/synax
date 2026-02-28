@@ -1,26 +1,29 @@
 {
   "name": "@synax-ai/server",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "type": "module",
   "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "hono": "^4.12.0",
     "@synax-ai/core": "workspace:*",
     "@synax-ai/sdk": "workspace:*",
-    "@nerax-ai/plugin": "0.0.1",
-    "@nerax-ai/logger": "0.0.1"
-  },
-  "scripts": {
-    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc",
-    "dev": "tsc --watch",
-    "lint": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "@nerax-ai/plugin": "0.0.3",
+    "@nerax-ai/logger": "0.0.3"
   }
 }
