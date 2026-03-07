@@ -64,7 +64,7 @@ export class DispatcherRunner {
     const dispatcher = dispatchers.get(dispatcherRef!);
     if (!dispatcher) throw new Error(`Dispatcher not found: ${dispatcherRef} for group ${groupId}`);
 
-    logger.info(`[${capability}] Dispatching group ${groupId} using: ${dispatcherRef}`);
+    logger.scope(capability).info(`Dispatching group ${groupId} using: ${dispatcherRef}`);
     return { context, filteredCandidates, dispatcher };
   }
 

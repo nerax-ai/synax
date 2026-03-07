@@ -1,6 +1,7 @@
 {
   "name": "@synax-ai/cli",
-  "version": "0.0.5",
+  "version": "0.0.11",
+  "license": "MIT",
   "type": "module",
   "bin": {
     "synax": "./dist/index.mjs"
@@ -20,9 +21,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@nerax-ai/logger": "0.0.3",
-    "@nerax-ai/plugin": "0.0.3",
-    "@nerax-ai/storage": "0.0.3",
+    "@nerax-ai/logger": "^0.1.1",
+    "@nerax-ai/plugin": "^0.1.1",
+    "@nerax-ai/storage": "^0.1.1",
     "@synax-ai/core": "workspace:*",
     "@synax-ai/sdk": "workspace:*",
     "@synax-ai/server": "workspace:*"

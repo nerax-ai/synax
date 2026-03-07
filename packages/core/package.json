@@ -1,13 +1,16 @@
 {
   "name": "@synax-ai/core",
-  "version": "0.0.5",
+  "version": "0.0.11",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     }
   },
   "scripts": {
@@ -18,7 +21,7 @@
   },
   "dependencies": {
     "@synax-ai/sdk": "workspace:*",
-    "@nerax-ai/plugin": "0.0.3",
-    "@nerax-ai/logger": "0.0.3"
+    "@nerax-ai/plugin": "^0.1.1",
+    "@nerax-ai/logger": "^0.1.1"
   }
 }

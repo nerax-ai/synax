@@ -10,7 +10,7 @@ export default defineConfig({
       declaration: true,
       removeComments: false,
     },
-    baseExternals: ['path', 'fs', 'crypto', 'stream', 'events'],
+    baseExternals: ['path', 'fs', 'crypto', 'stream', 'events', 'hono/cors'],
   },
   outDir: 'dist',
 });

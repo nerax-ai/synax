@@ -8,7 +8,7 @@ const log = getLogger('synax', {
   files: [{ filename: 'synax-%DATE%.log', level: 'debug' }],
 });
 
-PluginRegistry.getInstance({ appName: 'synax', logger: log.scope('PluginRegistry') });
+PluginRegistry.getInstance({ appName: 'synax', logger: log });
 
 async function main() {
   const storage = getStorage('synax');
