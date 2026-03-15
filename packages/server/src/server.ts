@@ -1,33 +1,23 @@
 import { Synax } from '@synax-ai/core';
 import type { ProviderConfig, GroupConfig, ApiContext } from '@synax-ai/sdk';
+import type { ConfigStore, ServerConfig, EndpointConfig } from './types';
 import { PluginRegistry } from '@nerax-ai/plugin';
 import type { EndpointContext } from '@synax-ai/sdk';
 import type { Logger } from '@nerax-ai/logger';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
-export interface EndpointConfig {
-  use: string;
-  basePath?: string;
-  options?: Record<string, unknown>;
-}
-
-export interface ServerConfig {
-  appName?: string;
-  plugins?: string[];
-  providers?: (ProviderConfig | import('@synax-ai/sdk').Provider)[];
-  groups?: GroupConfig[];
-  endpoints?: EndpointConfig[];
-  api?: EndpointConfig[];
-}
-
 export interface ServerOptions {
-  config: ServerConfig;
+  configStore: ConfigStore;
   logger?: Logger;
 }
 
+const ok = (data: any) => ({ success: true, data });
+const err = (message: string) => ({ success: false, error: message });
+
 export async function createServer(options: ServerOptions) {
-  const { config, logger } = options;
+  const { configStore, logger } = options;
+  const config = await configStore.getConfig();
   const log: Logger = logger ?? {
     info: console.log,
     warn: console.warn,
@@ -49,6 +39,87 @@ export async function createServer(options: ServerOptions) {
   const app = new Hono();
   app.use('*', cors());
   app.get('/health', (c) => c.json({ status: 'ok', version: '0.0.1' }));
+
+  // Config API
+  app.get('/api/config', async (c) => c.json(ok(await configStore.getConfig())));
+
+  // Provider API
+  app.get('/api/providers', async (c) => {
+    const cfg = await configStore.getConfig();
+    return c.json(ok(cfg.providers || []));
+  });
+  app.post('/api/providers', async (c) => {
+    const body = await c.req.json<ProviderConfig>();
+    if (!body.id || !body.use) return c.json(err('id and use required'), 400);
+    await configStore.addProvider(body);
+    await synax.addProvider(body);
+    return c.json(ok({ message: 'Provider added' }));
+  });
+  app.put('/api/providers/:id', async (c) => {
+    const body = await c.req.json<ProviderConfig>();
+    const updated = await configStore.updateProvider(c.req.param('id'), body);
+    if (!updated) return c.json(err('Provider not found'), 404);
+    await synax.updateProvider(body);
+    return c.json(ok({ message: 'Provider updated' }));
+  });
+  app.delete('/api/providers/:id', async (c) => {
+    const removed = await configStore.removeProvider(c.req.param('id'));
+    if (!removed) return c.json(err('Provider not found'), 404);
+    return c.json(ok({ message: 'Provider removed', note: 'Restart required' }));
+  });
+
+  // Group API
+  app.get('/api/groups', async (c) => {
+    const cfg = await configStore.getConfig();
+    return c.json(ok(cfg.groups || []));
+  });
+  app.post('/api/groups', async (c) => {
+    const body = await c.req.json<GroupConfig>();
+    if (!body.id) return c.json(err('id required'), 400);
+    await configStore.addGroup(body);
+    synax.addGroup(body);
+    return c.json(ok({ message: 'Group added' }));
+  });
+  app.put('/api/groups/:id', async (c) => {
+    const body = await c.req.json<GroupConfig>();
+    const updated = await configStore.updateGroup(c.req.param('id'), body);
+    if (!updated) return c.json(err('Group not found'), 404);
+    synax.addGroup(body);
+    return c.json(ok({ message: 'Group updated' }));
+  });
+  app.delete('/api/groups/:id', async (c) => {
+    const removed = await configStore.removeGroup(c.req.param('id'));
+    if (!removed) return c.json(err('Group not found'), 404);
+    return c.json(ok({ message: 'Group removed', note: 'Restart required' }));
+  });
+
+  // Endpoint API
+  app.get('/api/endpoints', async (c) => {
+    const cfg = await configStore.getConfig();
+    return c.json(ok(cfg.endpoints || []));
+  });
+  app.post('/api/endpoints', async (c) => {
+    const body = await c.req.json<EndpointConfig>();
+    if (!body.use) return c.json(err('use required'), 400);
+    await configStore.addEndpoint(body);
+    return c.json(ok({ message: 'Endpoint added' }));
+  });
+  app.delete('/api/endpoints/:use', async (c) => {
+    const removed = await configStore.removeEndpoint(c.req.param('use'));
+    if (!removed) return c.json(err('Endpoint not found'), 404);
+    return c.json(ok({ message: 'Endpoint removed' }));
+  });
+
+  // Registry API
+  app.get('/api/registry/providers', (c) => {
+    const providers = registry.listExtensions('provider').map((e: any) => ({ id: e.id, fullId: e.fullId }));
+    return c.json(ok(providers));
+  });
+  app.get('/api/registry/endpoints', (c) => {
+    const endpoints = registry.listExtensions('endpoint').map((e: any) => ({ id: e.id, fullId: e.fullId }));
+    return c.json(ok(endpoints));
+  });
+  app.get('/api/models', (c) => c.json(ok(synax.listModels())));
 
   // Mount endpoint plugins
   for (const ec of config.endpoints ?? []) {

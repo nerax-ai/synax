@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "synax": "./dist/index.mjs"
+    "synax": "./dist/cli.mjs"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,11 +21,14 @@
     "access": "public"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.3.0",
     "@nerax-ai/logger": "^0.1.1",
-    "@nerax-ai/plugin": "^0.1.1",
+    "@nerax-ai/plugin": "link:@nerax-ai/plugin",
     "@nerax-ai/storage": "^0.1.1",
     "@synax-ai/core": "workspace:*",
     "@synax-ai/sdk": "workspace:*",
-    "@synax-ai/server": "workspace:*"
+    "@synax-ai/server": "workspace:*",
+    "commander": "^12.1.0",
+    "inquirer": "^10.2.2"
   }
 }

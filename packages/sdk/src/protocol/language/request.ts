@@ -1,6 +1,7 @@
 import type { LanguageMessage } from './message';
 import type { LanguageTool } from './tool';
 import type { JSONSchema, ProviderOptions } from './types';
+import type { LanguageTextContent } from './content';
 
 export interface LanguageReasoningConfig {
   enabled?: boolean;

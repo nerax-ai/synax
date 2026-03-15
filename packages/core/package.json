@@ -20,8 +20,9 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@nerax-ai/logger": "^0.1.1",
+    "@nerax-ai/plugin": "link:@nerax-ai/plugin",
     "@synax-ai/sdk": "workspace:*",
-    "@nerax-ai/plugin": "^0.1.1",
-    "@nerax-ai/logger": "^0.1.1"
+    "zod": "^4.3.6"
   }
 }

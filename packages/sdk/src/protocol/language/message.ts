@@ -16,27 +16,25 @@ export interface LanguageMessageBase {
 /** System message: defines model behavior/persona */
 export interface LanguageSystemMessage extends LanguageMessageBase {
   role: 'system';
-  content: string;
+  content: LanguageTextContent[];
 }
 
 /** User message: supports text and multimodal (image, audio, video, PDF) input */
 export interface LanguageUserMessage extends LanguageMessageBase {
   role: 'user';
-  content: string | Array<LanguageTextContent | LanguageFileContent>;
+  content: Array<LanguageTextContent | LanguageFileContent>;
 }
 
 /** Assistant message: model output including text, reasoning, and tool calls */
 export interface LanguageAssistantMessage extends LanguageMessageBase {
   role: 'assistant';
-  content:
-    | string
-    | Array<
-        | LanguageTextContent
-        | LanguageFileContent
-        | LanguageReasoningContent
-        | LanguageToolCallContent
-        | LanguageToolApprovalRequestContent
-      >;
+  content: Array<
+    | LanguageTextContent
+    | LanguageFileContent
+    | LanguageReasoningContent
+    | LanguageToolCallContent
+    | LanguageToolApprovalRequestContent
+  >;
   /** Refusal message from the model (e.g. safety filter triggered) */
   refusal?: string;
 }

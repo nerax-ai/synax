@@ -9,3 +9,4 @@ export { EmbeddingClient } from './clients/embedding-client';
 export { ImageClient } from './clients/image-client';
 export { SpeechClient } from './clients/speech-client';
 export { VideoClient } from './clients/video-client';
+export { validateMessages, ValidationError } from './validation';

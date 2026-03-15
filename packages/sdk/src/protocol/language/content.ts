@@ -52,7 +52,7 @@ export interface LanguageToolResultContent extends LanguageContentPartBase {
   type: 'tool-result';
   toolCallId: string;
   toolName: string;
-  result: LanguageToolResultOutput;
+  output: LanguageToolResultOutput;
   isError?: boolean;
   /** Preliminary result to be replaced by its final version */
   preliminary?: boolean;

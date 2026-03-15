@@ -89,17 +89,22 @@ export class Synax {
   }
 
   async addProvider(config: Provider | ProviderConfig): Promise<void> {
+    if (this.providers.has(config.id)) {
+      throw new Error(`Provider already exists: ${config.id}`);
+    }
+    return this.setProvider(config);
+  }
+
+  async updateProvider(config: Provider | ProviderConfig): Promise<void> {
+    return this.setProvider(config);
+  }
+
+  private async setProvider(config: Provider | ProviderConfig): Promise<void> {
     if ('use' in config) {
       const merged = config.proxy ? { proxy: config.proxy, ...config.options } : (config.options ?? {});
       const provider = (await getRegistry().create('provider', config.use, config.id, merged)) as Provider;
-      if (this.providers.has(provider.id)) {
-        throw new Error(`Provider with id '${provider.id}' already exists`);
-      }
       this.providers.set(provider.id, provider);
       return;
-    }
-    if (this.providers.has(config.id)) {
-      throw new Error(`Provider with id '${config.id}' already exists`);
     }
     this.providers.set(config.id, config);
   }
