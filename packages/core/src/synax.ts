@@ -122,7 +122,11 @@ export class Synax {
   }
 
   getGroup(id: string): GroupConfig | undefined {
-    return this.groups.get(id);
+    const lower = id.toLowerCase();
+    for (const [k, v] of this.groups) {
+      if (k.toLowerCase() === lower) return v;
+    }
+    return undefined;
   }
 
   listGroups(): GroupConfig[] {
